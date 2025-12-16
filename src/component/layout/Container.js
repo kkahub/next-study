@@ -17,7 +17,29 @@ export default function Container() {
         github링크 ⨠
       </a>
 
-      <Card title="제목" subTitle="부제목"></Card>
+      <Card title="Next.js 버전 업그레이드 변경점" subTitle="App Router로 변경되면서 Page Router와 차이점">
+        <ul>
+          <li>헤더, 푸터를 레이아웃으로 관리 가능</li>
+          <li>로그인, 비로그인과 같이 권한 문제 해결 됨</li>
+          <li>react 18이상으로 서버 컴포넌트 사용 가능(빠른 html 로딩)</li>
+          <li>반대로 next.js 서버 부담 증가로 서버 캐시 활용 적극적</li>
+        </ul>
+      </Card>
+      <Card subTitle="버전 15로 변경되면서">
+        <ul>
+          <li>headers, cookies, params, searchParams가 비동기로 변경되어 await 추가 필요</li>
+          <li>클라이언트 컴포넌트 일 때 프로미스 처리 훅인 React.use로 비동기 처리하기도 함</li>
+          <li>React.use는 react19버전이라 next.js15버전은 react 19버전과 같이 써야 함</li>
+          <li>
+            자동 캐싱 정책 변경
+            <br />- 이전 버전에서는 30초 자동 클라이언트 라우터 캐시여서 로그아웃 해도 로그인 화면이 캐싱 됐었음.
+            <br />
+            - /api 디렉토리의 자동 캐싱 GET Route Handlers가 없어지고 각 파일에 export dynamic = 'force-static'으로 각자 캐싱 적용
+            <br />- 앞으로가기, 뒤로가기, loading.js는 여전히 자동 캐싱
+          </li>
+          <li>{`<From>`} 추가되고 서버 action 추가됨</li>
+        </ul>
+      </Card>
       <Card title="제목" subTitle="부제목"></Card>
       <Card title="제목" subTitle="부제목"></Card>
       <Card title="제목" subTitle="부제목"></Card>
