@@ -1,3 +1,6 @@
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
+import {vscDarkPlus} from 'react-syntax-highlighter/dist/esm/styles/prism';
+
 export function Card({title = '', subTitle, children}) {
   return (
     <>
@@ -11,6 +14,17 @@ export function Card({title = '', subTitle, children}) {
 }
 
 export default function Container() {
+  const customTheme = {
+    ...vscDarkPlus,
+    comment: {
+      color: '#888',
+    },
+    prolog: {color: '#888'},
+    doctype: {color: '#888'},
+    cdata: {color: '#888'},
+    punctuation: {color: '#ccc'}, // 구두점 색상 예시
+  };
+
   return (
     <div id="container">
       <a className="github" href="https://github.com/kkahub/next-study" target="_blank" rel="noreferrer">
@@ -25,6 +39,7 @@ export default function Container() {
           <li>반대로 next.js 서버 부담 증가로 서버 캐시 활용 적극적</li>
         </ul>
       </Card>
+
       <Card subTitle="버전 15로 변경되면서">
         <ul>
           <li>headers, cookies, params, searchParams가 비동기로 변경되어 await 추가 필요</li>
@@ -40,70 +55,113 @@ export default function Container() {
           <li>{`<From>`} 추가되고 서버 action 추가됨</li>
         </ul>
       </Card>
-      <Card title="제목" subTitle="부제목"></Card>
-      <Card title="제목" subTitle="부제목"></Card>
-      <Card title="제목" subTitle="부제목"></Card>
 
-      <Card title="Keeping Components Pure" subTitle="StrickMode">
+      <Card title="부록" subTitle="고차함수">
         <ul>
-          <li>component를 순수하게 유지해야 함</li>
-          <li>props, state, context는 항상 읽기전용으로 처리해야 함</li>
-          <li>이벤트 핸들러 내부, useEffect의 경우 순수할 필요 없음, 계산 가능</li>
-          <li>
-            component를 두 번 호출하는 "StrickMode"로 규칙을 어기는 구성 요소를 찾음
-            <div className="code">
-              <xmp>
-                <span className="gry">{'//'} index.js</span>
-                {`\n`}
-                {`<React.StrictMode> 
-  <App />
-</React.StrictMode>`}
-              </xmp>
-            </div>
-          </li>
-          <li>production 모드에서는 효과 없어서 앱 속도 문제 없음</li>
+          <li></li>
+          <li></li>
         </ul>
       </Card>
 
-      <Card title="State as a Snapshot" subTitle="Snapshot처럼 작동하는 state">
+      <Card subTitle="커링함수">
         <ul>
+          <li>함수 인자를 고정, 나머지 인자를 받는 함수를 반환하는 함수</li>
+          <li>매개변수는 함수 마다 한 개씩만 받을 수 있음</li>
+          <li>커링함수는 함수를 반환하기 때문에 고차함수 특성이 있음</li>
+          <li>장점 : 재활용, 모듈화, 유연성</li>
+          <li>단점 : 성능저하, 러닝커브, 가독성 및 어려운 디버깅</li>
           <li>
-            아래 코드를 작동하면 +3이 될 것 같지만 +1만 된다.
+            <b>활용1. 함수의 지연 실행</b>
             <div className="code">
-              <xmp>
-                {` <button
-  onClick={() => {
-    setNumber(number + 1);
-    setNumber(number + 1);
-    setNumber(number + 1);
-  }}
->
-  +3
-</button>`}
-              </xmp>
+              <SyntaxHighlighter language="javascript" style={customTheme}>
+                {`function multiply(a) {
+  return function(b) {
+    return a * b;
+  };
+}
+
+// a=2라는 상태를 기억하는 클로저다.
+const double = multiply(2); 
+
+// 두 번째 인자를 전달해 함수를 지연 실행할 수 있다.
+console.log(double(4));  // 8 (2 * 4)`}
+              </SyntaxHighlighter>
             </div>
           </li>
           <li>
-            '다음 렌더링에서 state값 0에 +1을 준비한다.'를 세 번 갈아끼우며 대체해서 마지막 setNumber만 준비함.
+            <b>활용2. 이벤트 핸들러 간소화</b>
             <br />
-            준비과정 코드를 시각화한 모습
+            <span className="org">{`onClick={(e) => handleItemClick(itemId)}`}</span> 이벤트를 매게변수로 작성할 필요 없어짐
             <div className="code">
+              <SyntaxHighlighter language="javascript" style={customTheme}>
+                {`function MyComponent() {
+  const handleItemClick = itemId => event => {
+    console.log(\`Item \${itemId} clicked\`, event);
+  };
+
+  return (
+    <div>
+      {['item1', 'item2', 'item3'].map(itemId => (
+        <button key={itemId} onClick={handleItemClick(itemId)}>
+          Click {itemId}
+        </button>
+      ))}
+    </div>
+  );
+}`}
+              </SyntaxHighlighter>
+            </div>
+          </li>
+          <li>
+            <b>활용3. API 호출 처리</b>
+            <br />
+            <div className="code">
+              <SyntaxHighlighter language="javascript" style={customTheme}></SyntaxHighlighter>
               <xmp>
-                {` <button
-  onClick={() => {
-    setNumber(0 + 1);
-    setNumber(0 + 1);
-    setNumber(0 + 1);
-  }}
->
-  +3
-</button>`}
+                {`const createAPIEndpoint = base => endpoint => params => {
+  const query = new URLSearchParams(params).toString();
+  return`}{' '}
+                {' ${ '}base{' }'}
+                {'/${ '}endpoint{` }{'?${'}query{'}`}`;
+                {'};'}
+                <br />
+                <br />
+                <span className="gry">{'//'} 기본 API URL</span>
+                <br />
+                {`const baseAPI = createAPIEndpoint('https://example.com/api');`}
+                <br />
+                <br />
+                <span className="gry">{'//'} 엔드포인트 확장</span>
+                <br />
+                {`const fetchUser = baseAPI('user');
+const fetchPosts = baseAPI('posts');`}
+                <br />
+                <br />
+                <span className="gry">{'//'} 사용 예시</span>
+                <br />
+                {`const userAPIPath = fetchUser({ id: '123' });
+console.log(userAPIPath);`}
+                <span className="gry"> {'//'} "https://example.com/api/user?id=123"</span>
+                <br />
+                {`const postsAPIPath = fetchPosts({ userId: '123', limit: 10 });
+console.log(postsAPIPath);`}
+                <span className="gry"> {'//'} "https://example.com/api/posts?userId=123&limit=10"</span>
               </xmp>
             </div>
           </li>
-          <li>이런 snapshot 처럼 작동하는 state는 이벤트 핸들러 안에서 setTimeout을 사용해 인위적으로 이벤트를 지연시키고 그 사이 상태값을 바꿔도 값이 고정되 바뀌지 않는다.</li>
+          <li>
+            <a href="https://weezip.treefeely.com/post/learn-js-currying-with-6-examples" target="_blank" rel="noreferrer">
+              커링, 고차함수 설명
+            </a>
+          </li>
         </ul>
       </Card>
+
+      <Card title="제목" subTitle="부제목"></Card>
+      <Card title="제목" subTitle="부제목"></Card>
+      <Card title="제목" subTitle="부제목"></Card>
+      <Card title="제목" subTitle="부제목"></Card>
+      <Card title="제목" subTitle="부제목"></Card>
     </div>
   );
 }

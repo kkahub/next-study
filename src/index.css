@@ -1,13 +1,107 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  font-family: 'Pretendard GOV Regular', '맑은고딕', 'Lato', Gothic A1, Consolas;
+  font-size: 16px;
+  line-height: 1.4;
+}
+body {
+  background: #f3f3f3;
+  padding-bottom: 10px;
+}
+hr {
+  margin: 30px 0 -10px;
+  border-top: 1px dashed #aaa;
+}
+h2 {
+  margin: 25px 10px 7px 10px;
+  padding: 2px 0;
+  font-size: 20px;
+}
+details {
+  overflow: hidden;
+  margin: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 7px;
+  background: #fff;
+}
+summary {
+  padding: 12px 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.desc_wrap {
+  padding: 7px 10px 7px 25px;
+  border-top: 1px solid #ddd;
+}
+ul {
+  list-style: none;
+}
+ul > li {
+  position: relative;
+  padding: 3px 0;
+  padding-left: 10px;
+}
+ul > li::before {
+  content: 'ㆍ';
+  position: absolute;
+  top: 3px;
+  left: -4px;
+}
+ol {
+  padding: 10px 0 0 15px;
+}
+p {
+  padding: 2px 5px;
+}
+b {
+  font-weight: 700;
+}
+.code {
+  overflow-x: auto;
+  margin: 8px 0 15px;
+  padding: 10px;
+  border-radius: 7px;
+  background: #213547;
+  color: #ddd;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+xmp {
+  display: inline-block;
+}
+pre {
+  padding: 0 !important;
+  background: transparent !important;
+}
+ul > li > pre {
+  margin: 8px 0 15px;
+}
+.tip {
+  overflow-x: auto;
+  margin: 8px 0 15px;
+  padding: 10px;
+  border-radius: 7px;
+  background: #eee;
+  color: #555;
+}
+a {
+  color: cornflowerblue;
+}
+#container {
+  padding: 20px 0;
+}
+.github {
+  padding: 10px;
+}
+.gry {
+  color: #888;
+}
+.org {
+  color: #f07178;
+}
+.pp {
+  color: #c792ea;
+}
+.d_pp {
+  color: #b16ae0;
 }
