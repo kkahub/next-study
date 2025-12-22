@@ -58,14 +58,27 @@ export default function Container() {
 
       <Card title="부록" subTitle="고차함수">
         <ul>
-          <li></li>
-          <li></li>
+          <li>함수를 인자로 받거나 함수를 반환하는 함수</li>
+          <li>
+            이미 익숙하게 알고 있는 고차함수.
+            <br />
+            .filter(): 전달한 함수가 true면 반환하는 로직을 인자로 받음
+            <br />
+            .map(): 각 요소를 변환하는 로직(함수)을 인자로 받음
+            <br />
+            .reduce(): 배열을 하나의 값으로 합치는 로직(함수)을 인자로 받음
+            <br />
+            .forEach(): 각 요소에 대해 실행할 작업(함수)을 인자로 받음
+            <br />
+            .sort(): 정렬 기준이 되는 비교 로직(함수)을 인자로 받음
+            <br />
+          </li>
         </ul>
       </Card>
 
       <Card subTitle="커링함수">
         <ul>
-          <li>함수 인자를 고정, 나머지 인자를 받는 함수를 반환하는 함수</li>
+          <li>여러 개 인자를 하나씩 받아 고정하고 함수들을 체인으로 만드는 기술</li>
           <li>매개변수는 함수 마다 한 개씩만 받을 수 있음</li>
           <li>커링함수는 함수를 반환하기 때문에 고차함수 특성이 있음</li>
           <li>장점 : 재활용, 모듈화, 유연성</li>
@@ -116,42 +129,87 @@ console.log(double(4));  // 8 (2 * 4)`}
             <b>활용3. API 호출 처리</b>
             <br />
             <div className="code">
-              <SyntaxHighlighter language="javascript" style={customTheme}></SyntaxHighlighter>
-              <xmp>
+              <SyntaxHighlighter language="javascript" style={customTheme}>
                 {`const createAPIEndpoint = base => endpoint => params => {
-  const query = new URLSearchParams(params).toString();
-  return`}{' '}
-                {' ${ '}base{' }'}
-                {'/${ '}endpoint{` }{'?${'}query{'}`}`;
-                {'};'}
-                <br />
-                <br />
-                <span className="gry">{'//'} 기본 API URL</span>
-                <br />
-                {`const baseAPI = createAPIEndpoint('https://example.com/api');`}
-                <br />
-                <br />
-                <span className="gry">{'//'} 엔드포인트 확장</span>
-                <br />
-                {`const fetchUser = baseAPI('user');
-const fetchPosts = baseAPI('posts');`}
-                <br />
-                <br />
-                <span className="gry">{'//'} 사용 예시</span>
-                <br />
-                {`const userAPIPath = fetchUser({ id: '123' });
-console.log(userAPIPath);`}
-                <span className="gry"> {'//'} "https://example.com/api/user?id=123"</span>
-                <br />
-                {`const postsAPIPath = fetchPosts({ userId: '123', limit: 10 });
-console.log(postsAPIPath);`}
-                <span className="gry"> {'//'} "https://example.com/api/posts?userId=123&limit=10"</span>
-              </xmp>
+const query = new URLSearchParams(params).toString();
+return \${ base } \${ endpoint }?\${query};
+
+// 기본 API URL
+const baseAPI = createAPIEndpoint('https://example.com/api');
+                
+// 엔드포인트 확장
+const fetchUser = baseAPI('user');
+const fetchPosts = baseAPI('posts');
+                
+// 사용 예시
+const userAPIPath = fetchUser({ id: '123' });
+console.log(userAPIPath);
+
+// "https://example.com/api/user?id=123"
+const postsAPIPath = fetchPosts({ userId: '123', limit: 10 });
+console.log(postsAPIPath); // "https://example.com/api/posts?userId=123&limit=10"`}
+              </SyntaxHighlighter>
             </div>
           </li>
           <li>
+            <b>활용4. 고차 컴포넌트(HOC)</b>
+            <br />
+            컴포넌트를 인자로 받아 재사용에 용이 함
+            <div className="code">
+              <SyntaxHighlighter language="javascript" style={customTheme}>
+                {`// 커링 함수를 이용한 HOC 선언
+function withLoading(WrappedComponent) {
+  return function({ isLoading, ...rest }) {
+    if (isLoading) {
+      return <div>Loading...</div>;
+    } else {
+      return <WrappedComponent {...rest} />;
+    }
+  };
+}
+
+// 예시 컴포넌트 선언
+function MyComponent({ data }) {
+  return (
+    <div>
+      <h1>My Component</h1>
+      <p>{data}</p>
+    </div>
+  );
+}
+
+// 사용 예시
+const MyComponentWithLoading = withLoading(MyComponent);
+
+function App() {
+  // 데이터를 가져오는 상태 시뮬레이션
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
+
+  return (
+    <MyComponentWithLoading isLoading={loading} data={data} />
+  );
+}`}
+              </SyntaxHighlighter>
+            </div>
+          </li>
+          <li>
+            <b>활용5. 팩토리 패턴</b>
+            <br />
+            객체 지향 프로그래밍에서 객체 생성을 캡슐화하는 디자인 패턴
+            <br />* 하단 링크 참조
+          </li>
+          <li>
+            <b>활용6. Reducer 간소화</b>
+            <br />
+            간결하게 표현 가능. 예시로만 볼 것.
+            <br />
+            리듀서 안에서 액션 처리가 기본 원칙
+            <br />* 하단 링크 참조
+          </li>
+          <li>
             <a href="https://weezip.treefeely.com/post/learn-js-currying-with-6-examples" target="_blank" rel="noreferrer">
-              커링, 고차함수 설명
+              커링, 고차함수 참고 설명
             </a>
           </li>
         </ul>
