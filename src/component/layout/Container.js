@@ -56,7 +56,7 @@ export default function Container() {
         </ul>
       </Card>
 
-      <Card title="부록" subTitle="고차함수">
+      <Card title="부록 자바스크립트" subTitle="고차함수">
         <ul>
           <li>함수를 인자로 받거나 함수를 반환하는 함수</li>
           <li>
@@ -215,8 +215,17 @@ function App() {
         </ul>
       </Card>
 
-      <Card title="제목" subTitle="부제목"></Card>
-      <Card title="제목" subTitle="부제목"></Card>
+      <Card title="파일구조 차이점" subTitle="layout.tsx와 template.tsx 사용">
+        <ul>
+          <li>기존 react환경 처럼 이어가는 것이 아닌 template.tsx는 매번 새롭게 마운트 됨</li>
+          <li>구글 에널리틱스 처럼 페이지를 넘나 들면서 저장해야 하는 부분이 있을 때 layout.tsx대신 template.tsx사용</li>
+        </ul>
+      </Card>
+
+      <Card title="모음" subTitle="a와 <LINK /> 차이점">
+        a태그는 새로고침하면서 넘어가고 {`<LINK />`}는 새로고침 하지 않으면서 넘어감
+      </Card>
+
       <Card title="제목" subTitle="부제목"></Card>
       <Card title="제목" subTitle="부제목"></Card>
       <Card title="제목" subTitle="부제목"></Card>
