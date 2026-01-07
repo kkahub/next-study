@@ -1,5 +1,5 @@
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
-import {vscDarkPlus} from 'react-syntax-highlighter/dist/esm/styles/prism';
+import {a11yDark, materialLight} from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export function Card({title = '', subTitle, children}) {
   return (
@@ -14,15 +14,15 @@ export function Card({title = '', subTitle, children}) {
 }
 
 export default function Container() {
-  const customTheme = {
-    ...vscDarkPlus,
+  const codeTheme = {
+    ...a11yDark,
     comment: {
       color: '#888',
     },
     prolog: {color: '#888'},
     doctype: {color: '#888'},
     cdata: {color: '#888'},
-    punctuation: {color: '#ccc'}, // 구두점 색상 예시
+    punctuation: {color: '#ccc'},
   };
 
   return (
@@ -86,7 +86,7 @@ export default function Container() {
           <li>
             <b>활용1. 함수의 지연 실행</b>
             <div className="code">
-              <SyntaxHighlighter language="javascript" style={customTheme}>
+              <SyntaxHighlighter language="javascript" style={a11yDark}>
                 {`function multiply(a) {
   return function(b) {
     return a * b;
@@ -106,7 +106,7 @@ console.log(double(4));  // 8 (2 * 4)`}
             <br />
             <span className="org">{`onClick={(e) => handleItemClick(itemId)}`}</span> 이벤트를 매게변수로 작성할 필요 없어짐
             <div className="code">
-              <SyntaxHighlighter language="javascript" style={customTheme}>
+              <SyntaxHighlighter language="javascript" style={codeTheme}>
                 {`function MyComponent() {
   const handleItemClick = itemId => event => {
     console.log(\`Item \${itemId} clicked\`, event);
@@ -129,7 +129,7 @@ console.log(double(4));  // 8 (2 * 4)`}
             <b>활용3. API 호출 처리</b>
             <br />
             <div className="code">
-              <SyntaxHighlighter language="javascript" style={customTheme}>
+              <SyntaxHighlighter language="javascript" style={codeTheme}>
                 {`const createAPIEndpoint = base => endpoint => params => {
 const query = new URLSearchParams(params).toString();
 return \${ base } \${ endpoint }?\${query};
@@ -156,7 +156,7 @@ console.log(postsAPIPath); // "https://example.com/api/posts?userId=123&limit=10
             <br />
             컴포넌트를 인자로 받아 재사용에 용이 함
             <div className="code">
-              <SyntaxHighlighter language="javascript" style={customTheme}>
+              <SyntaxHighlighter language="javascript" style={codeTheme}>
                 {`// 커링 함수를 이용한 HOC 선언
 function withLoading(WrappedComponent) {
   return function({ isLoading, ...rest }) {
@@ -222,10 +222,139 @@ function App() {
         </ul>
       </Card>
 
-      <Card title="모음" subTitle="a와 <LINK /> 차이점">
+      <Card title="그 외 모음" subTitle="a와 <LINK /> 차이점">
         a태그는 새로고침하면서 넘어가고 {`<LINK />`}는 새로고침 하지 않으면서 넘어감
       </Card>
 
+      <Card subTitle="router.push와 router.replace 차이점">
+        <p>상황에 맞는 라우터 주소 변경 방법 사용</p>
+        <div className="code">
+          <SyntaxHighlighter language="javascript" style={codeTheme}>
+            {`// localhost:3000/detail 페이지 코드
+const router = useRouter();
+                
+router.push('localhost:3000/detail/123'); // 1. push 사용
+router.replace('localhost:3000/detail/123');  // 2. replace 사용`}
+          </SyntaxHighlighter>
+        </div>
+        <br />
+        <ul>
+          <li>
+            <b>router.push일 경우</b>
+            <br />
+            한 단계 한 단계 씩 아래와 같이 히스토리가 쌓임
+            <br />
+            <div className="code">localhost:3000 -> localhost:3000/detail -> localhost:3000/detail/123</div>
+            <span className="org">localhost:3000/detail/123</span>
+            에서 뒤로가기를 하면 <span className="org">localhost:3000/detail</span>로 가지만 detail페이지의 router.push가 실행되면서 다시 <span className="org">localhost:3000/detail/123</span>로 가버리는 상황 발생
+            <br />
+            <br />
+          </li>
+          <li>
+            <b>router.replace일 경우</b>
+            <br />
+            <div className="code">localhost:3000 -> localhost:3000/detail</div>
+            /detail에서 <span className="org">localhost:3000/detail/123</span>로 넘어갈 때 replace로 <span className="org">localhost:3000/detail</span>를 덮어쓰기 때문에
+            <div className="code">localhost:3000 -> localhost:3000/detail/123</div> 위와 같이 되며 뒤로가기 하면 <span className="org">localhost:3000</span>로 이동
+          </li>
+        </ul>
+      </Card>
+
+      <Card title="라우트" subTitle="패러렐 라우트 (Parallel Routes)">
+        <ul>
+          <li>한 레이아웃에 동시에 두 가지 라우트(페이지)를 보여주거나 조건부 렌더링 할 수 있음</li>
+          <li>매우 동적인 앱 섹션에 유용</li>
+          <li>
+            <b>사용 규칙 및 방법</b>
+            <ul>
+              <li>layout.tsx에서 쓸 수 있고 layout.tsx와 위치가 같아야 함</li>
+              <li>@modal과 같이 폴더에 @를 붙임</li>
+              <li>
+                layout.tsx가 위치한 곳과 @를 붙인 폴더 안에 모두 default.tsx가 필요
+                <br />
+                패러렐 라우트가 활성화되지 않았거나, 현재 URL과 일치 하지 않을 경우 띄울 기본 화면으로 폴백 UI 제공 용도
+                <br />
+                기본설정으로 아래는 가장 기본 세팅 화면
+                <div className="code">
+                  <SyntaxHighlighter language="javascript" style={codeTheme}>
+                    {`export default function Default() {
+  return null
+}`}
+                  </SyntaxHighlighter>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </Card>
+
+      <Card subTitle="인터셉트 라우트 (Intercepting Routes)">
+        <ul>
+          <li>클라이언트에서 라우팅 할 때 만 사용 할 수 있음</li>
+          <li>현재 레이아웃에서 다른 부분의 라우트를 로드 할 수 있음</li>
+          <li>사용자가 다른 컨텍스트로 전환하지 않고도 다른 라우트의 콘텐츠를 표시하기에 유용</li>
+          <li>
+            예를 들어 <span className="org">https://url.com/feed</span>라는 URL을 가진 리스트 화면에서 모달을
+            <SyntaxHighlighter language="javascript" style={materialLight}>{`<Link href='/photo/123'>...</Link>`}</SyntaxHighlighter>과 같은 코드로 띄울 때 <span className="org">/photo/123</span> 라우트를 가로채고 URL을 마스킹해 <span className="org">/feed</span> 위에 오버레이 하여 <span className="org">https://url.com/photo/123</span>로 표시 할 수 있음.
+          </li>
+          <li>
+            하지만 https://url.com/photo/123로 직접 들어간 경우 모달대신 전체 페이지로 렌더링 되어 라우트 가로채기가 발생하지 않음
+            <br />
+            인터셉트 라우트 디렉토리만 필요한 것이 아니라 일반 디렉토리도 같이 만들어서 직접 입력 시 전체 페이지로 접근 할 수 있게 만들 수 있음
+            <span className="gry">※ (.)photo/[id]/page.tsx</span>와 <span className="gry">※ photo/[id]/page.tsx</span>를 같이 만듬
+          </li>
+          <li>
+            <b>라우트 디렉토리명 사용 규칙</b>
+            <ul>
+              <li>(.) : 동일 레밸 세그먼트 매칭</li>
+              <li>(..) : 한 레밸 위 세그먼트 매칭</li>
+              <li>(..)(..) : 두 레밸 위 세그먼트 매칭</li>
+              <li>(...) : app 디렉토리(root) 세그먼트 매칭</li>
+            </ul>
+            <span className="gry">※ (.)photo/[id]/page.tsx</span>
+          </li>
+          <li>redirect(next/navigation)는 클라이언트에서 페이지 넘어갈 때 관여. 서버에서 하면 인터셉팅이 잘 작동하지 않음</li>
+        </ul>
+        <span className="gry">
+          참고 : <a href="https://nextjs-ko.org/docs/app/building-your-application/routing/intercepting-routes#modals">모달 코드 예시</a>
+        </span>
+      </Card>
+
+      <Card subTitle="패러렐, 인터셉트 라우트를 같이 사용">
+        <p>두 가지를 접목하면 기존 모달의 문제점을 해결 할 수 있음</p>
+        <ul>
+          <li>모달 콘텐츠 URL 생성으로 공유 가능</li>
+          <li>모달을 닫아도 페이지 새로고침 없이 컨텍스트를 유지할 수 있음</li>
+          <li>뒤로가기 하면 모달 닫기 가능</li>
+          <li>앞으로 가기 하면 모달 열기 가능</li>
+        </ul>
+      </Card>
+
+      <Card title="Private 폴더" subTitle="공통 컴포넌트 숨기기">
+        <ul>
+          <li>인터셉트 라우트와 일반 라우트의 모달이 같기 때문에 공통 컴포넌트로 묶음</li>
+          <li>_component와 같은 디렉토리로 만들면 특정 기능 없이 프라이빗 폴더로 라우트 생성 안함</li>
+          <li></li>
+        </ul>
+      </Card>
+
+      <Card title="서버, 클라이언트 컴포넌트" subTitle="서버 컴포넌트">
+        <ul>
+          <li>layout.tsx, page.tsx는 기본적으로 서버 컴포넌트임</li>
+          <li>async로 비동기화 할 수 있는 장점이 있음</li>
+          <li>서버 컴포넌트는 모두 데이터와 관련있음.</li>
+          <li></li>
+        </ul>
+      </Card>
+
+      <Card title="서버, 클라이언트 컴포넌트" subTitle="부제목">
+        <ul>
+          <li>클라이언트 컴포넌트는 서버에서 실행 될 수 있지만 훅은 실행 안됨</li>
+          <li>클라이언트 컴포넌트 명시는 'use client';로 하고 layout, page에서 사용하기 보단 컴포넌트 안에서 사용 권장</li>
+        </ul>
+      </Card>
+
+      <Card title="제목" subTitle="부제목"></Card>
       <Card title="제목" subTitle="부제목"></Card>
       <Card title="제목" subTitle="부제목"></Card>
       <Card title="제목" subTitle="부제목"></Card>
