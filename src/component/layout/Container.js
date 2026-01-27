@@ -354,7 +354,31 @@ router.replace('localhost:3000/detail/123');  // 2. replace 사용`}
         </ul>
       </Card>
 
-      <Card title="제목" subTitle="부제목"></Card>
+      <Card title="segment 접근 hook" subTitle="useSelectedLayoutSegment, useSelectedLayoutSegments">
+        <div className="code">
+                  <SyntaxHighlighter language="javascript" style={codeTheme}>
+            {`app  
+  └ board
+      └ qna
+           └ page.tsx
+  └ home
+  └ layout.tsx
+}`}
+                  </SyntaxHighlighter>
+                </div>
+        <b>useSelectedLayoutSegment</b>
+        <ul>
+          <li>layout.tsx를 기준으로 .tsx파일이 속하는 형제 segment 네임을 가져옴</li>
+          <li>board/qna/page.tsx에서 useSelectedLayoutSegment을 사용하면 <span className="org">board</span>가 결과로 나옴</li>
+        </ul>
+        <br />
+        <b>useSelectedLayoutSegments</b>
+        <ul>
+          <li>layout.tsx를 기준으로 .tsx파일이 속하는 형제, 자식 segment 네임을 배열로 가져옴</li>
+          <li>board/qna/page.tsx에서 useSelectedLayoutSegment을 사용하면 <span className="org">["board", "qna"]</span>가 결과로 나옴</li>
+        </ul>
+      </Card>
+
       <Card title="제목" subTitle="부제목"></Card>
       <Card title="제목" subTitle="부제목"></Card>
       <Card title="제목" subTitle="부제목"></Card>
