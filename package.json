@@ -2,7 +2,7 @@
   "name": "next-study",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://kkahub.github.io/react19-study/",
+  "homepage": "https://kkahub.github.io/next-study/",
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
