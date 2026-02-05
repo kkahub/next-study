@@ -334,7 +334,6 @@ router.replace('localhost:3000/detail/123');  // 2. replace 사용`}
         <ul>
           <li>인터셉트 라우트와 일반 라우트의 모달이 같기 때문에 공통 컴포넌트로 묶음</li>
           <li>_component와 같은 디렉토리로 만들면 특정 기능 없이 프라이빗 폴더로 라우트 생성 안함</li>
-          <li></li>
         </ul>
       </Card>
 
@@ -343,11 +342,10 @@ router.replace('localhost:3000/detail/123');  // 2. replace 사용`}
           <li>layout.tsx, page.tsx는 기본적으로 서버 컴포넌트임</li>
           <li>async로 비동기화 할 수 있는 장점이 있음</li>
           <li>서버 컴포넌트는 모두 데이터와 관련있음.</li>
-          <li></li>
         </ul>
       </Card>
 
-      <Card title="서버, 클라이언트 컴포넌트" subTitle="부제목">
+      <Card subTitle="클라이언트 컴포넌트">
         <ul>
           <li>클라이언트 컴포넌트는 서버에서 실행 될 수 있지만 훅은 실행 안됨</li>
           <li>클라이언트 컴포넌트 명시는 'use client';로 하고 layout, page에서 사용하기 보단 컴포넌트 안에서 사용 권장</li>
