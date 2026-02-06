@@ -42,9 +42,42 @@ export default function Container() {
 
       <Card subTitle="버전 15로 변경되면서">
         <ul>
-          <li>headers, cookies, params, searchParams가 비동기로 변경되어 await 추가 필요</li>
+          <li>
+            headers, cookies, params, searchParams가 비동기로 변경되어 await 추가 필요<br />
+            *Next.js의 useParams, useSearchParams는 비동기로 변경 필요 없음
+          </li>
           <li>클라이언트 컴포넌트 일 때 프로미스 처리 훅인 React.use로 비동기 처리하기도 함</li>
           <li>React.use는 react19버전이라 next.js15버전은 react 19버전과 같이 써야 함</li>
+          <li>
+            <b>searchParams - React.use 예시</b>
+            <div className="code">
+              <SyntaxHighlighter language="javascript" style={codeTheme}>
+                {`'use client';
+import * as React from 'react';
+
+export default function Page({ params }) {
+  const {id} = React.use(params);
+  return <p>ID: {id}</p>
+}`}
+                </SyntaxHighlighter>
+                </div>
+                <b>searchParams - async/await 예시</b>
+                <p>타입에 Promise, 함수에 async, 변수할당에 await</p>
+            <div className="code">
+              <SyntaxHighlighter language="javascript" style={codeTheme}>
+                {`'use client';
+
+type Props = {
+  params: Promise<{ id: string }>;
+}
+
+export default async function Page({ params } : Props) {
+  const {id} = await params;
+  return <p>ID: {id}</p>
+}`}
+                </SyntaxHighlighter>
+                </div>  
+            </li>
           <li>
             자동 캐싱 정책 변경
             <br />- 이전 버전에서는 30초 자동 클라이언트 라우터 캐시여서 로그아웃 해도 로그인 화면이 캐싱 됐었음.
@@ -258,6 +291,11 @@ router.replace('localhost:3000/detail/123');  // 2. replace 사용`}
             <div className="code">localhost:3000 -> localhost:3000/detail/123</div> 위와 같이 되며 뒤로가기 하면 <span className="org">localhost:3000</span>로 이동
           </li>
         </ul>
+      </Card>
+
+      <Card subTitle="VS Code에서 export 함수와 import 옮겨주는 기능">
+        export할 함수 우클릭 -> Refactor/리팩토링(Ctrl+Shift+R) -> Move<br />
+        import와 export를 자동으로 다른 곳으로 옮겨줌
       </Card>
 
       <Card title="라우트" subTitle="패러렐 라우트 (Parallel Routes)">
